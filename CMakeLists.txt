@@ -18,26 +18,39 @@ set(HEADERS
     include/FunctionServer.h
 )
 
-# Create the dynamic library from the source files
-add_library(${LibraryName} SHARED ${SOURCES})
+### BOOST LIBRARY INCLUDE
+set(Boost_USE_STATIC_LIBS OFF) 
+set(Boost_USE_MULTITHREADED ON)  
+set(Boost_USE_STATIC_RUNTIME OFF) 
+find_package(Boost 1.78.0 REQUIRED system) 
 
-# Set include directories for header files (if any)
-target_include_directories(${LibraryName} PUBLIC
-    ${CMAKE_CURRENT_SOURCE_DIR}/include
-)
+if(Boost_FOUND)
+    # Create the dynamic library from the source files
+    add_library(${LibraryName} SHARED ${SOURCES})
+    target_link_libraries(${LibraryName} ${Boost_LIBRARIES})
+    # Set include directories for header files (if any)
+    target_include_directories(${LibraryName} PUBLIC
+        ${CMAKE_CURRENT_SOURCE_DIR}/include
+        ${Boost_INCLUDE_DIRS}
+    )
 
-# Install the library
-install(TARGETS ${LibraryName}
-        LIBRARY DESTINATION lib
-        RUNTIME DESTINATION bin # For Windows shared libraries
-)
+    # Install the library
+    install(TARGETS ${LibraryName}
+            LIBRARY DESTINATION lib
+            RUNTIME DESTINATION bin # For Windows shared libraries
+    )
 
-# Install the header files
-install(FILES ${HEADERS} DESTINATION include/${LibraryName})
+    # Install the header files
+    install(FILES ${HEADERS} DESTINATION include/${LibraryName})
+        
+endif()
+### END BOOST LIBRARY INCLUDE
+
+
 
 # Add any other configurations or dependencies as needed
 
 # Optionally, you can add executables and link them against the library
 # For example, if you have an executable using your library:
-# add_executable(MyExecutable src/main.cpp)
-# target_link_libraries(MyExecutable PRIVATE ${LibraryName})
+add_executable(MyExecutable test/main.cpp)
+target_link_libraries(MyExecutable PRIVATE ${LibraryName})
