@@ -6,16 +6,18 @@ set(LibraryName TCPFunction)
 project(${LibraryName} VERSION 1.0.0)
 
 # Set C++ standard
-set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD 17)
 
 # Add the source files for your library here
 set(SOURCES
     src/FunctionServer.cpp
+    src/TCPConnection.cpp
 )
 
 # Add header files directory if you have header files for your library
 set(HEADERS
     include/FunctionServer.h
+    include/TCPConnection.h
 )
 
 ### BOOST LIBRARY INCLUDE

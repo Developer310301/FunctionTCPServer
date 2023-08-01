@@ -1,10 +1,25 @@
 #include "FunctionServer.h"
 
+using namespace functionserver;
+
 int main(){
 
-    boost::asio::io_service ioService;
-    functionserver::FunctionServer server(ioService,5555);
+    FunctionServer server{};
 
-    ioService.run();
+    server.OnJoin = [](TCPConnection::pointer conn){
+        std::cout<< "Connection from " << conn->socket().remote_endpoint() << std::endl;
+    };
+
+    server.OnLeave = [](TCPConnection::pointer conn){
+        std::cout << "Client disconnected" << std::endl;
+    };
+
+    server.OnClientMessage = [](TCPConnection* conn, std::string msg){
+        conn->post(msg);
+    };
+
+    server.start();
+
+    return 0;
 
 }
