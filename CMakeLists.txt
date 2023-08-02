@@ -10,14 +10,17 @@ set(CMAKE_CXX_STANDARD 17)
 
 # Add the source files for your library here
 set(SOURCES
+    src/server/TCPServer.cpp
+    src/server/TCPConnection.cpp
     src/FunctionServer.cpp
-    src/TCPConnection.cpp
 )
 
 # Add header files directory if you have header files for your library
 set(HEADERS
+    include/server/TCPServer.h
+    include/server/TCPConnection.h
+    include/FunctionMessages.h
     include/FunctionServer.h
-    include/TCPConnection.h
 )
 
 ### BOOST LIBRARY INCLUDE
