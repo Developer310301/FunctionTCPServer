@@ -9,10 +9,12 @@ namespace functionserver{
 
     int TCPServer::start(){
         try{
+            *this->_outputStream << "[-] Server started!" << std::endl;
             startAccept();
             this->_ioContext.run();
+            
         }catch(std::exception e){
-            *this->_errorStream << "Error while starting server: " << e.what() << std::endl;
+            *this->_errorStream << "[!] Error while running server: " << e.what() << std::endl;
             return -1;
         }
         return 0;
